@@ -10,14 +10,17 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { memo, VFC } from "react";
+import { User } from "../../../types/api/user";
 
 type Props = {
   isOpen: boolean;
+  //useSelectUserから渡ってくるuserなのでnullの可能性もある
+  user: User | null;
   onClose: () => void;
 };
 
 export const UserDetailModal: VFC<Props> = memo((props) => {
-  const { isOpen, onClose } = props;
+  const { user, isOpen, onClose } = props;
   return (
     <Modal
       isOpen={isOpen}
@@ -33,19 +36,20 @@ export const UserDetailModal: VFC<Props> = memo((props) => {
           <Stack spacing={4}>
             <FormControl>
               <FormLabel>名前</FormLabel>
-              <Input value="じゃけぇ" isReadOnly />
+              {/* userはnullの可能性もあるので、?でオプショナルチェイニングにする　 */}
+              <Input value={user?.username} isReadOnly />
             </FormControl>
             <FormControl>
               <FormLabel>フルネーム</FormLabel>
-              <Input value="Takumi Okada" isReadOnly />
+              <Input value={user?.name} isReadOnly />
             </FormControl>
             <FormControl>
               <FormLabel>メール</FormLabel>
-              <Input value="shota0609akizuki@gmail.com" isReadOnly />
+              <Input value={user?.email} isReadOnly />
             </FormControl>
             <FormControl>
               <FormLabel>TEL</FormLabel>
-              <Input value="070-0000-0000" isReadOnly />
+              <Input value={user?.phone} isReadOnly />
             </FormControl>
           </Stack>
         </ModalContent>

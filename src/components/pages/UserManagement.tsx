@@ -8,13 +8,21 @@ import { Spinner } from "@chakra-ui/spinner";
 import {} from "@chakra-ui/modal";
 import { useDisclosure } from "@chakra-ui/react";
 import { UserDetailModal } from "../organisms/user/UserDetailModal";
+import { useSelectUser } from "../../hooks/useSelectUser";
 
 export const UserManagement: VFC = memo(() => {
   const { onClose, isOpen, onOpen } = useDisclosure();
   const { getUsers, loading, users } = useAllUsers();
+  const { onSelectUser, selectedUser } = useSelectUser();
+  console.log(selectedUser);
   useEffect(() => getUsers(), []);
   //propsとして渡す関数は毎回再生成するとレンダリングの効率が悪いのでuseCallbackでmemo化する
-  const onClickUser = useCallback(() => onOpen(), []);
+  const onClickUser = useCallback(
+    (id: number) => {
+      onSelectUser({ id, users, onOpen });
+    },
+    [users, onSelectUser, onOpen]
+  );
   return (
     <>
       {loading ? (
@@ -27,6 +35,7 @@ export const UserManagement: VFC = memo(() => {
             return (
               <WrapItem mx="auto" key={user.id}>
                 <UserCard
+                  id={user.id}
                   onClick={onClickUser}
                   imageUrl="https://source.unsplash.com/random"
                   userName={user.username}
@@ -37,7 +46,7 @@ export const UserManagement: VFC = memo(() => {
           })}
         </Wrap>
       )}
-      <UserDetailModal isOpen={isOpen} onClose={onClose} />
+      <UserDetailModal user={selectedUser} isOpen={isOpen} onClose={onClose} />
     </>
   );
 });
