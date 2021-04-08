@@ -9,16 +9,19 @@ type Props = {
 
 export const useMessage = () => {
   const toast = useToast();
-  const showMessage = useCallback((props: Props) => {
-    const { title, status } = props;
-    toast({
-      //プロパティ名と変数名が同じ場合はショートハンドで書ける
-      title,
-      status,
-      position: "top",
-      duration: 2000,
-      isClosable: true,
-    });
-  }, []);
+  const showMessage = useCallback(
+    (props: Props) => {
+      const { title, status } = props;
+      toast({
+        //プロパティ名と変数名が同じ場合はショートハンドで書ける
+        title,
+        status,
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+    [toast]
+  );
   return { showMessage };
 };
