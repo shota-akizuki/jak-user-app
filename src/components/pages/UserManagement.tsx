@@ -9,11 +9,14 @@ import {} from "@chakra-ui/modal";
 import { useDisclosure } from "@chakra-ui/react";
 import { UserDetailModal } from "../organisms/user/UserDetailModal";
 import { useSelectUser } from "../../hooks/useSelectUser";
+import useLoginUser from "../../hooks/useLoginUser";
 
 export const UserManagement: VFC = memo(() => {
   const { onClose, isOpen, onOpen } = useDisclosure();
   const { getUsers, loading, users } = useAllUsers();
   const { onSelectUser, selectedUser } = useSelectUser();
+  const { loginUser } = useLoginUser();
+  console.log(loginUser);
   console.log(selectedUser);
   useEffect(() => getUsers(), []);
   //propsとして渡す関数は毎回再生成するとレンダリングの効率が悪いのでuseCallbackでmemo化する
@@ -46,7 +49,12 @@ export const UserManagement: VFC = memo(() => {
           })}
         </Wrap>
       )}
-      <UserDetailModal user={selectedUser} isOpen={isOpen} onClose={onClose} />
+      <UserDetailModal
+        user={selectedUser}
+        isOpen={isOpen}
+        onClose={onClose}
+        isAdmin={loginUser?.isAdmin}
+      />
     </>
   );
 });
