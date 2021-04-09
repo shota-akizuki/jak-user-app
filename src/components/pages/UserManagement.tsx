@@ -33,18 +33,20 @@ export const UserManagement: VFC = memo(() => {
           <Spinner />
         </Center>
       ) : (
-        <Wrap p={{ base: 4, md: 10 }}>
+        <Wrap p={{ base: 4, md: 10 }} m="auto" justify="center">
           {users.map((user) => {
             return (
-              <WrapItem mx="auto" key={user.id}>
-                <UserCard
-                  id={user.id}
-                  onClick={onClickUser}
-                  imageUrl="https://source.unsplash.com/random"
-                  userName={user.username}
-                  fullName={user.name}
-                ></UserCard>
-              </WrapItem>
+              <Center>
+                <WrapItem key={user.id} m="auto">
+                  <UserCard
+                    id={user.id}
+                    onClick={onClickUser}
+                    imageUrl="https://source.unsplash.com/random"
+                    userName={user.username}
+                    fullName={user.name}
+                  ></UserCard>
+                </WrapItem>
+              </Center>
             );
           })}
         </Wrap>
